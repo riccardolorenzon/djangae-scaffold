@@ -1,3 +1,5 @@
+# appengine-blog 
+A blog application deployed on GAE PaaS using Djangae from Potato-London. 
 
 # The Djangae Scaffold Project
 
