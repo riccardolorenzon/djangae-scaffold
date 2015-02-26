@@ -13,5 +13,5 @@ urlpatterns = patterns('',
     url(r'^_ah/', include('djangae.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', views.home),
-    url(r'^add_post/$', views.add_post),
+    url(r'^blog/', include('potato_blog_ric.urls'))
 )
