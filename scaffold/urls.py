@@ -11,5 +11,7 @@ from potato_blog_ric import views
 urlpatterns = patterns('',
     url(r'^$', views.home),
     url(r'^_ah/', include('djangae.urls')),
-    url(r'^admin/', include(admin.site.urls))
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'^$', views.home),
+    url(r'^add_post/$', views.add_post),
 )
