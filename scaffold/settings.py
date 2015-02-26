@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'csp',
     'djangae.contrib.gauth',
     'djangae', # Djangae should be after Django core/contrib things
+    'potato_blog_ric'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -106,9 +107,29 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-
 if DEBUG:
     CSP_STYLE_SRC = ("'self'", "'unsafe-inline'")
 
-
 from djangae.contrib.gauth.settings import *
+from djangae.utils import on_production
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'djangae.db.backends.appengine'
+    }
+}
+
+if on_production():
+    DATABASES = {
+        'default': {
+            'ENGINE': 'djangae.db.backends.appengine'
+        }
+    }
+else:
+    DATABASES['sql'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'development.sqlite3'
+    }
+
+ROOT_PATH = os.path.dirname(__file__)
+TEMPLATE_DIRS = (os.path.join(ROOT_PATH, "templates"),)

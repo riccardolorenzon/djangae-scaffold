@@ -19,5 +19,4 @@ settings = "scaffold.settings_live" if on_production() else "scaffold.settings"
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", settings)
 
 
-
 application = DjangaeApplication(get_wsgi_application())
