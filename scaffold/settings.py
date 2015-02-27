@@ -40,7 +40,8 @@ INSTALLED_APPS = (
     'csp',
     'djangae.contrib.gauth',
     'djangae', # Djangae should be after Django core/contrib things
-    'potato_blog_ric'
+    'potato_blog_ric',
+    'scaffold'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -105,7 +106,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
-STATIC_URL = '/static/'
 
 if DEBUG:
     CSP_STYLE_SRC = ("'self'", "'unsafe-inline'")
@@ -139,7 +139,3 @@ MEDIA_URL = '/media/'
 
 STATIC_ROOT = os.path.join(ROOT_PATH, 'static')
 STATIC_URL = '/static/'
-
-STATICFILES_DIRS = (
-    os.path.join(ROOT_PATH, 'assets'),
-)

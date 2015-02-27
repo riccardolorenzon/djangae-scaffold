@@ -1,9 +1,10 @@
+{% load staticfiles %}
 <html>
 <head>
-    <script src ="http://code.jquery.com/jquery-2.1.1.js"></script>
-    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/blog-style.css" />
+    <script src ="{{ STATIC_URL }}jquery-2.1.1.js"></script>
+    <link href="{{ STATIC_URL }}bootstrap.min.css" rel="stylesheet">
+    <script src="{{ STATIC_URL }}bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}blog-style.css" />
 </head>
 <body>
     <style type="text/css">
@@ -136,7 +137,7 @@
     <div id="footer">
       <div class="container">
         <br>
-        <p class="muted credit">Copyright riccardo lorenzon 2k14</p>
+        <p class="muted credit">Copyright riccardo lorenzon 2k15</p>
       </div>
     </div>
 

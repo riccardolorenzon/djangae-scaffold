@@ -3,6 +3,7 @@ from django.conf.urls import patterns, include, url
 import session_csrf
 import settings
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
 session_csrf.monkeypatch()
 
 from django.contrib import admin
