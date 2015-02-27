@@ -133,3 +133,13 @@ else:
 
 ROOT_PATH = os.path.dirname(__file__)
 TEMPLATE_DIRS = (os.path.join(ROOT_PATH, "templates"),)
+
+MEDIA_ROOT = os.path.join(ROOT_PATH, 'media')
+MEDIA_URL = '/media/'
+
+STATIC_ROOT = os.path.join(ROOT_PATH, 'static')
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+    os.path.join(ROOT_PATH, 'assets'),
+)

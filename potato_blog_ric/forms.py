@@ -1,10 +1,10 @@
 from django import forms
 
-from models import Post, Comment
+from models import BlogArticle, Comment
 
-class PostForm(forms.ModelForm):
+class BlogArticleForm(forms.ModelForm):
     class Meta:
-        model = Post
+        model = BlogArticle
         exclude = ['author', 'slug']
 
 class CommentForm(forms.ModelForm):

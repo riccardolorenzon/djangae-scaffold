@@ -1,4 +1,4 @@
-from forms import PostForm, CommentForm
+from forms import BlogArticleForm, CommentForm
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from models import BlogArticle, ImageBlogArticle
@@ -8,9 +8,6 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 from django.http import HttpResponse
-
-def home(request):
-    return HttpResponse('hello my beautiful blog!!')
 """
 def add_post(request):
     form = PostForm(request.POST or None)
