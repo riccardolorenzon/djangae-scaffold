@@ -1,8 +1,7 @@
 from django.db import models
-from django.template.defaultfilters import slugify
 
-class Post(models.Model):
-    title = models.CharField(max_length=100)
+class BlogArticle(models.Model):
+    title = models.CharField(max_length=60)
     text = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     author = models.CharField(max_length=50)
@@ -10,13 +9,23 @@ class Post(models.Model):
     def __unicode__(self):
         return self.title
 
+class ImageBlogArticle(models.Model):
+    title = models.CharField(max_length=60)
+    description = models.TextField()
+    image = models.ImageField(upload_to='./')
+    blogarticle = models.ForeignKey(BlogArticle)
+
+    def __unicode__(self):
+        return self.title
+
 class Comment(models.Model):
+    user = models.CharField(max_length=50)
     name = models.CharField(max_length=42)
     email = models.EmailField(max_length=75)
     website = models.URLField(max_length=200, null=True, blank=True)
     text = models.TextField()
-    post = models.ForeignKey(Post)
-    created_on = models.DateTimeField(auto_now_add=True)
+    content = models.TextField()
+    blogarticles = models.ForeignKey(BlogArticle)
 
     def __unicode__(self):
         return self.text
