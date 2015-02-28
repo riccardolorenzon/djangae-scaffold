@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import  User
 import scaffold.settings as settings
 
 class BlogArticle(models.Model):

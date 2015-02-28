@@ -1,13 +1,12 @@
-from forms import BlogArticleForm, CommentForm
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from models import BlogArticle, ImageBlogArticle
-from djangae.contrib.gauth.backends import AppEngineUserAPI
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth import authenticate, login, logout
 
 # index
+@csrf_exempt
 def index(request):
     blog_objects = BlogArticle.objects.all().order_by()
     paginator = Paginator(blog_objects, 5)
@@ -21,10 +20,9 @@ def index(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        backend = AppEngineUserAPI()
-        user = backend.authenticate(username=username, password=password)#authenticate(username= username, password = password)
+        user = authenticate(username=username, password=password)
         if user != None:
-            #backend.login(request,user)
+            login(request,user)
             response = render(request, "./blogtemplate.html", {"testvar" : "test string", "blogs" : blog_objects, "user" : user} )
             return response
         else:
@@ -80,5 +78,5 @@ def delete_image(request, article_id, image_id):
     return HttpResponseRedirect("/")
 
 def logout_view(request):
-    #logout(request)
+    logout(request)
     return HttpResponseRedirect('/')
