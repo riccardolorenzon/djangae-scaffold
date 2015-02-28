@@ -2,9 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from models import BlogArticle, ImageBlogArticle
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import  User
 from google.appengine.api import users
 
 # index
@@ -13,12 +11,11 @@ def index(request):
     paginator = Paginator(blog_articles_objects, 5)
     page = request.GET.get('page')
     try:
-        blog_objects = paginator.page(page)
+        blog_articles_objects = paginator.page(page)
     except PageNotAnInteger:
-        blog_objects = paginator.page(1)
+        blog_articles_objects = paginator.page(1)
     except EmptyPage:
-        blog_objects = paginator.page(paginator.num_pages)
-    user = users.get_current_user()
+        blog_articles_objects = paginator.page(paginator.num_pages)
     response = render(request, "./blogtemplate.html", {"blog_articles" : blog_articles_objects, "login_url": users.create_login_url('/'), "logout_url": users.create_logout_url('/')})
     return response
 

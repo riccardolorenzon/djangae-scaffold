@@ -17,7 +17,6 @@
                 <li><a href="{{ logout_url }}">logout</a></li>
             {% else %}
                 <li><a href="{{ login_url }}">login</a></li>
-                <li><a href="#" data-toggle="modal" data-target="#login">login aa</a></li>
             {% endif %}
         </ul>
     </nav>
@@ -102,14 +101,14 @@
             <div class="row">
                 <div class="span12">
                     <span class="step-links">
-                            {% if blogs.has_previous %}
-                                <a href="?page={{ blogs.previous_page_number }}">previous</a>
+                            {% if blog_articles.has_previous %}
+                                <a href="?page={{ blog_articles_objects.previous_page_number }}">previous</a>
                             {% endif %}
                             <span class="current">
-                                Page {{ blogs.number }} of {{ blogs.paginator.num_pages }}
+                                Page {{ blog_articles.number }} of {{ blog_articles.paginator.num_pages }}
                             </span>
-                            {% if blogs.has_next %}
-                                <a href="?page={{ blogs.next_page_number }}">next</a>
+                            {% if blog_articles.has_next %}
+                                <a href="?page={{ blog_articles.next_page_number }}">next</a>
                             {% endif %}
                     </span>
                 </div>
