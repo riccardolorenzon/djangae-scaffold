@@ -1,12 +1,16 @@
 from django.db import models
 from django.contrib.auth.models import  User
+import scaffold.settings as settings
 
 class BlogArticle(models.Model):
     title = models.CharField(max_length=60)
     text = models.TextField()
     blog_content = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
-    author = models.ForeignKey(User)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL)
+    class Meta:
+        get_latest_by = "created_on"
+        ordering = "-created_on"
 
     def __unicode__(self):
         return self.title

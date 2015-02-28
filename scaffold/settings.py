@@ -7,7 +7,7 @@ https://docs.djangoproject.com/en/1.6/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
-
+from djangae.contrib.gauth.settings import *
 from djangae.settings_base import * #Set up some AppEngine specific stuff
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -138,3 +138,5 @@ MEDIA_URL = '/media/'
 
 STATIC_ROOT = os.path.join(ROOT_PATH, 'static')
 STATIC_URL = '/static/'
+
+AUTH_USER_MODEL = 'djangae.GaeDatastoreUser'

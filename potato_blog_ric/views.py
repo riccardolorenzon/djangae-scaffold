@@ -8,7 +8,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # index
 def index(request):
-    blog_objects = BlogArticle.objects.all()
+    blog_objects = BlogArticle.objects.all().order_by()
     paginator = Paginator(blog_objects, 5)
     page = request.GET.get('page')
     try:
@@ -37,39 +37,35 @@ def createblog(request):
     newBlog.save()
     return HttpResponseRedirect('/')
 
-def edit_article(request):
-    if request.method == 'POST':
-        article_id = request.POST['editBlogArticleId']
-        blog = BlogArticle.objects.get(id = article_id)
-        return render(request, "./blogedit.html", {"blog" : blog})
-    return HttpResponseRedirect('home')
-
 def update_article(request):
     if request.method == 'POST':
         article_id = request.POST['editBlogArticleId']
         blog = BlogArticle.objects.get(id = article_id)
-        if blog != None:
+
+        if blog != None and request.user == blog.author:
             blog.title = request.POST['title']
             blog.blog_content = request.POST['content']
             blog.save()
     return HttpResponseRedirect("/")
 
 def delete_article(request, article_id):
-    blog = BlogArticle.objects.filter(id = article_id)
+    blog = BlogArticle.objects.get(id = article_id)
     deleted = True
-    if blog == None:
+    if blog == None or request.user != blog.author:
         deleted = False
     else:
         blog.delete()
     return HttpResponseRedirect("/")
 
 def upload_image(request):
-    new_sharedimage = ImageBlogArticle()
-    new_sharedimage.image = request.FILES['file']
-    new_sharedimage.blogarticle_id = request.POST['blogArticleId']
-    new_sharedimage.title = request.POST['title']
-    new_sharedimage.description = request.POST['description']
-    new_sharedimage.save()
+    blog = BlogArticle.objects.filter(id = request.POST['blogArticleId'])
+    if request.user == blog.author:
+        new_sharedimage = ImageBlogArticle()
+        new_sharedimage.image = request.FILES['file']
+        new_sharedimage.blogarticle_id = request.POST['blogArticleId']
+        new_sharedimage.title = request.POST['title']
+        new_sharedimage.description = request.POST['description']
+        new_sharedimage.save()
     return HttpResponseRedirect("/")
 
 def delete_image(request, article_id, image_id):

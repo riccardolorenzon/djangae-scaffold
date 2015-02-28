@@ -20,3 +20,9 @@ $(document).on("click", ".open-EditArticleDialog", function () {
      var blogArticleId = $(this).data('id');
      $(".modal-body #blogArticleId").val( blogArticleId );
 });
+
+function editarticlemodal(title, content){
+    $("#editBlogArticleTitle").value = title;
+    $("#editBlogArticleContent").value = content;
+
+};
