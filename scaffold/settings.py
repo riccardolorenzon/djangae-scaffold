@@ -14,7 +14,6 @@ from djangae.settings_base import * #Set up some AppEngine specific stuff
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
@@ -44,11 +43,17 @@ INSTALLED_APPS = (
     'scaffold'
 )
 
+AUTHENTICATION_BACKENDS = (
+    'djangae.contrib.gauth.backends.AppEngineUserAPI',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
 MIDDLEWARE_CLASSES = (
     'djangae.contrib.security.middleware.AppEngineSecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'djangae.contrib.gauth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'session_csrf.CsrfMiddleware',

@@ -47,3 +47,9 @@ indexes:
   properties:
   - name: app_label
   - name: name
+
+- kind: potato_blog_ric_blogarticle
+  properties:
+  - name: author_id
+  - name: created_on
+    direction: desc

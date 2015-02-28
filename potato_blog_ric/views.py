@@ -2,9 +2,10 @@ from forms import BlogArticleForm, CommentForm
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from models import BlogArticle, ImageBlogArticle
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User, Group
+from djangae.contrib.gauth.backends import AppEngineUserAPI
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.template import RequestContext
+from django.views.decorators.csrf import csrf_exempt
 
 # index
 def index(request):
@@ -20,12 +21,15 @@ def index(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        user = authenticate(username= username, password = password)
+        backend = AppEngineUserAPI()
+        user = backend.authenticate(username=username, password=password)#authenticate(username= username, password = password)
         if user != None:
-            login(request,user)
+            #backend.login(request,user)
             response = render(request, "./blogtemplate.html", {"testvar" : "test string", "blogs" : blog_objects, "user" : user} )
             return response
-    response = render(request, "./blogtemplate.html", {"testvar" : "test string", "blogs" : blog_objects} )
+        else:
+            return HttpResponse('incorrect username/password')
+    response = render(request, "./blogtemplate.html", {"testvar" : "test string", "blogs" : blog_objects})
     return response
 
 # create blog view
@@ -58,7 +62,7 @@ def delete_article(request, article_id):
     return HttpResponseRedirect("/")
 
 def upload_image(request):
-    blog = BlogArticle.objects.filter(id = request.POST['blogArticleId'])
+    blog = BlogArticle.objects.get(id = request.POST['blogArticleId'])
     if request.user == blog.author:
         new_sharedimage = ImageBlogArticle()
         new_sharedimage.image = request.FILES['file']
@@ -76,5 +80,5 @@ def delete_image(request, article_id, image_id):
     return HttpResponseRedirect("/")
 
 def logout_view(request):
-    logout(request)
+    #logout(request)
     return HttpResponseRedirect('/')

@@ -10,7 +10,7 @@ class BlogArticle(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL)
     class Meta:
         get_latest_by = "created_on"
-        ordering = "-created_on"
+        ordering = ["-created_on"]
 
     def __unicode__(self):
         return self.title
