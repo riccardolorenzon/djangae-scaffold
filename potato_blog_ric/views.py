@@ -9,8 +9,8 @@ from google.appengine.api import users
 
 # index
 def index(request):
-    blog_objects = BlogArticle.objects.all().order_by("-created_on")
-    paginator = Paginator(blog_objects, 5)
+    blog_articles_objects = BlogArticle.objects.all().order_by("-created_on")
+    paginator = Paginator(blog_articles_objects, 5)
     page = request.GET.get('page')
     try:
         blog_objects = paginator.page(page)
@@ -18,7 +18,8 @@ def index(request):
         blog_objects = paginator.page(1)
     except EmptyPage:
         blog_objects = paginator.page(paginator.num_pages)
-    response = render(request, "./blogtemplate.html", {"blogs" : blog_objects, "login_url": users.create_login_url('/'), "logout_url": users.create_logout_url('/')})
+    user = users.get_current_user()
+    response = render(request, "./blogtemplate.html", {"blog_articles" : blog_articles_objects, "login_url": users.create_login_url('/'), "logout_url": users.create_logout_url('/')})
     return response
 
 # create blog view
@@ -33,26 +34,26 @@ def createblog(request):
 def update_article(request):
     if request.method == 'POST':
         article_id = request.POST['editBlogArticleId']
-        blog = BlogArticle.objects.get(id = article_id)
+        blog_article = BlogArticle.objects.get(id = article_id)
 
-        if blog != None and request.user == blog.author:
-            blog.title = request.POST['title']
-            blog.blog_content = request.POST['content']
-            blog.save()
+        if blog_article != None and request.user == blog_article.author:
+            blog_article.title = request.POST['title']
+            blog_article.blog_content = request.POST['content']
+            blog_article.save()
     return HttpResponseRedirect("/")
 
 def delete_article(request, article_id):
-    blog = BlogArticle.objects.get(id = article_id)
+    blog_article = BlogArticle.objects.get(id = article_id)
     deleted = True
-    if blog == None or request.user != blog.author:
+    if blog_article == None or request.user != blog_article.author:
         deleted = False
     else:
-        blog.delete()
+        blog_article.delete()
     return HttpResponseRedirect("/")
 
 def upload_image(request):
-    blog = BlogArticle.objects.get(id = request.POST['blogArticleId'])
-    if request.user == blog.author:
+    blog_article = BlogArticle.objects.get(id = request.POST['blogArticleId'])
+    if request.user == blog_article.author:
         new_sharedimage = ImageBlogArticle()
         new_sharedimage.image = request.FILES['file']
         new_sharedimage.blogarticle_id = request.POST['blogArticleId']

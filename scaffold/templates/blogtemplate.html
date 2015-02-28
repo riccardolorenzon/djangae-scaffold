@@ -5,7 +5,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}blog-style.css" />
-     <script src =" {{ STATIC_URL }}blog-script.js "></script>
+    <script src =" {{ STATIC_URL }}blog-script.js "></script>
 </head>
 <body>
 
@@ -17,6 +17,7 @@
                 <li><a href="{{ logout_url }}">logout</a></li>
             {% else %}
                 <li><a href="{{ login_url }}">login</a></li>
+                <li><a href="#" data-toggle="modal" data-target="#login">login aa</a></li>
             {% endif %}
         </ul>
     </nav>
@@ -27,26 +28,26 @@
     </div>
 
     <div class="container">
-        {% for blog in blogs %}
+        {% for blog_article in blog_articles %}
             <div class="row">
                 <div class="span12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            {{ blog.title }}
+                            {{ blog_article.title }}
                         </div>
                         <div class="panel-body">
                             <article>
                                 <section>
-                                    <h2>{{ blog.title }}</h2>
+                                    <h2>{{ blog_article.title }}</h2>
                                     <p id ="blog_content">
-                                        {{ blog.blog_content }}
+                                        {{ blog_article.blog_content }}
                                     </p>
                                 </section>
                             </article>
                         </div>
                         <div class="panel-body">
-                        {% if blog.imageblogarticle_set != None %}
-                           {% for image in blog.imageblogarticle_set.all|slice:":3" %}
+                        {% if blog_article.imageblogarticle_set != None %}
+                           {% for image in blog_article.imageblogarticle_set.all|slice:":3" %}
                                <a href="">
                                     <div class="col-md-4">
                                         <div class="panel panel-default">
@@ -59,10 +60,10 @@
                                                     <img class="img-responsive" src="{{ image.image.url }}">
                                                 </a>
                                             </div>
-                                                {% if blog.author == user %}
+                                                {% if blog_article.author == user %}
                                                     <div class="btn-toolbar" role="toolbar">
                                                         <div class="btn-group">
-                                                            <button type="button" class="btn btn-default" aria-label="middle Align" onClick="location.href='/delete-image/{{ blog.id }}/images/{{ image.id }}'">
+                                                            <button type="button" class="btn btn-default" aria-label="middle Align" onClick="location.href='/delete-image/{{ blog_article.id }}/images/{{ image.id }}'">
                                                                 <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                                              </button>
                                                         </div>
@@ -74,17 +75,17 @@
                            {% endfor %}
                         {% endif %}
                         </div>
-                            {% if blog.author == user %}
+                            {% if blog_article.author == user %}
                                 <div class="btn-toolbar" role="toolbar">
                                     <div class="btn-group">
-                                        <button type="button" class="open-EditArticleDialog btn btn-default" aria-label="left Align" data-id="{{ blog.id }}" data-title="{{ blog.title }}" onClick='editarticlemodal("{{ blog.title }}", "{{ blog.blog_content }}")'
+                                        <button type="button" class="open-EditArticleDialog btn btn-default" aria-label="left Align" data-id="{{ blog_article.id }}" data-title="{{ blog_article.title }}" onClick='editarticlemodal("{{ blog_article.title }}", "{{ blog_article.blog_content }}")'
                                                  data-toggle="modal" data-target="#editarticlemodal">
                                           <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                                         </button>
-                                        <button type="button" class="btn btn-default deleteButton" aria-label="middle Align" onClick="location.href='/delete-article/' + {{ blog.id }} + '/';">
+                                        <button type="button" class="btn btn-default deleteButton" aria-label="middle Align" onClick="location.href='/delete-article/' + {{ blog_article.id }} + '/';">
                                           <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                         </button>
-                                        <!--<button type="button" class="open-UploadImageDialog btn btn-default" aria-label="right Align"  data-id="{{ blog.id }}" onClick="uploadingimagemodal()"
+                                        <!--<button type="button" class="open-UploadImageDialog btn btn-default" aria-label="right Align"  data-id="{{ blog_article.id }}" onClick="uploadingimagemodal()"
                                                data-toggle="modal" data-target="#uploadimagemodal">
                                           <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
                                         </button>-->
@@ -127,7 +128,7 @@
             <div class="modal-content">
                 <form method="POST" action="/update-article/" role="form">
                     {% csrf_token %}
-                    <div class="modal-body login">
+                    <div class="modal-body">
                         <input type="hidden" name="editBlogArticleId" id="editBlogArticleId">
                         <div class="form-group">
                             <label for="title">Title</label>
@@ -150,7 +151,7 @@
     <div class="modal fade" id="login">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form method="post" action ="./">
+                <form method="post" action ="_ah/login">
                     {% csrf_token %}
                     <div class="modal-body login">
                         <b>Username: </b>
@@ -173,11 +174,15 @@
             <div class="modal-content">
                 <form method="post" action="/addblog/">
                     {% csrf_token %}
-                    <div class="modal-body login">
-                        <b>Title: </b>
-                            <input class="form-control" name="title">
-                        <b>Blog content: </b>
-                             <input type="text" class="form-control" name="blog_content">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="title">Title</label>
+                              <input class="form-control" name="title">
+                        </div>
+                         <div class="form-group">
+                            <label for="title">Content</label>
+                             <textarea type="text" class="form-control" name="blog_content"></textarea>
+                        </div>
                     </div>
                      <div class="modal-footer">
                         <input type="submit" class="btn btn-success pull-left" value="Add"/>
