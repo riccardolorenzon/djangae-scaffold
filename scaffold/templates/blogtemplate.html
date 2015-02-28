@@ -14,9 +14,9 @@
             {% if user != None and user.username != '' %}
                 <a class="navbar-brand" href="#">{{ user.username }}</a>
                 <li><a href="#" data-toggle="modal" data-target="#addblog">add post</a> </li>
-                <li><a href="./logout/">logout</a></li>
+                <li><a href="{{ logout_url }}">logout</a></li>
             {% else %}
-                <li><a href="#" data-toggle="modal" data-target="#login">login</a></li>
+                <li><a href="{{ login_url }}">login</a></li>
             {% endif %}
         </ul>
     </nav>

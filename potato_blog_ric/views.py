@@ -4,11 +4,12 @@ from models import BlogArticle, ImageBlogArticle
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import  User
+from google.appengine.api import users
 
 # index
-@csrf_exempt
 def index(request):
-    blog_objects = BlogArticle.objects.all().order_by()
+    blog_objects = BlogArticle.objects.all().order_by("-created_on")
     paginator = Paginator(blog_objects, 5)
     page = request.GET.get('page')
     try:
@@ -17,17 +18,7 @@ def index(request):
         blog_objects = paginator.page(1)
     except EmptyPage:
         blog_objects = paginator.page(paginator.num_pages)
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(username=username, password=password)
-        if user != None:
-            login(request,user)
-            response = render(request, "./blogtemplate.html", {"testvar" : "test string", "blogs" : blog_objects, "user" : user} )
-            return response
-        else:
-            return HttpResponse('incorrect username/password')
-    response = render(request, "./blogtemplate.html", {"testvar" : "test string", "blogs" : blog_objects})
+    response = render(request, "./blogtemplate.html", {"blogs" : blog_objects, "login_url": users.create_login_url('/'), "logout_url": users.create_logout_url('/')})
     return response
 
 # create blog view
