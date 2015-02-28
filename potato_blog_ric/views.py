@@ -6,35 +6,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User, Group
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-# Create your views here.
-from django.http import HttpResponse
-"""
-def add_post(request):
-    form = PostForm(request.POST or None)
-    if form.is_valid():
-        post = form.save(commit=False)
-        post.author = request.user
-        post.save()
-        return HttpResponse('post inserted successully')
-    return render_to_response('add_post.html',
-                              { 'form': form },
-                              context_instance=RequestContext(request))
-
-def view_post(request, slug):
-    post = get_object_or_404(Post, slug=slug)
-    form = CommentForm(request.POST or None)
-    if form.is_valid():
-        comment = form.save(commit=False)
-        comment.post = post
-        comment.save()
-        return redirect(request.path)
-    return render_to_response('blog_post.html',
-                              {
-                                  'post': post,
-                                  'form': form,
-                              },
-                              context_instance=RequestContext(request))
-"""
 # index
 def index(request):
     blog_objects = BlogArticle.objects.all()

@@ -1,37 +1,18 @@
 {% load staticfiles %}
 <html>
 <head>
-    <script src ="{{ STATIC_URL }}jquery-2.1.1.js"></script>
-    <link href="{{ STATIC_URL }}bootstrap.min.css" rel="stylesheet">
-    <script src="{{ STATIC_URL }}bootstrap.min.js"></script>
+    <script src ="https://code.jquery.com/jquery-2.1.1.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}blog-style.css" />
 </head>
 <body>
-    <style type="text/css">
-
-    </style>
-    <script>
-        $(document).on("click", ".open-UploadImageDialog", function () {
-             var blogArticleId = $(this).data('id');
-             $(".modal-body #blogArticleId").val( blogArticleId );
-        });
-        $(document).on("click", ".open-EditArticleDialog", function () {
-
-             var blogArticleId = $(this).data('id');
-             var title = $(this).data('title');
-             var content = $('#blog_content').text(); // blog_content might be a lot of string, it's better not to duplicate in as element information
-
-             $(".modal-body #editBlogArticleId").val( blogArticleId );
-             $(".modal-body #editBlogArticleTitle").val( title );
-             $(".modal-body #editBlogArticleContent").val( content );
-        });
-    </script>
 
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
         <ul class="nav navbar-nav">
             {% if user != None and user.username != '' %}
                 <a class="navbar-brand" href="#">{{ user.username }}</a>
-                <li><a href="#" data-toggle="modal" data-target="#addblog">add blog</a> </li>
+                <li><a href="#" data-toggle="modal" data-target="#addblog">add post</a> </li>
                 <li><a href="./logout/">logout</a></li>
             {% else %}
                 <li><a href="#" data-toggle="modal" data-target="#login">login</a></li>
@@ -50,7 +31,7 @@
                 <div class="span12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Article
+                            {{ blog.title }}
                         </div>
                         <div class="panel-body">
                             <article>
@@ -77,7 +58,6 @@
                                                     <img class="img-responsive" src="{{ image.image.url }}">
                                                 </a>
                                             </div>
-                                            {% if blog.author == user %}
                                                 <div class="btn-toolbar" role="toolbar">
                                                     <div class="btn-group">
                                                         <button type="button" class="btn btn-default" aria-label="middle Align" onClick="location.href='/delete-image/{{ blog.id }}/images/{{ image.id }}'">
@@ -85,21 +65,19 @@
                                                          </button>
                                                     </div>
                                                 </div>
-                                            {% endif %}
                                         </div>
                                     </div>
                                 </a>
                            {% endfor %}
                         {% endif %}
                         </div>
-                        {% if blog.author == user %}
                             <div class="btn-toolbar" role="toolbar">
                                 <div class="btn-group">
                                     <button type="button" class="open-EditArticleDialog btn btn-default" aria-label="left Align" data-id="{{ blog.id }}" data-title="{{ blog.title }}" onClick="#editarticlemodal"
                                              data-toggle="modal" data-target="#editarticlemodal">
                                       <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                                     </button>
-                                    <button type="button" class="btn btn-default" aria-label="middle Align" onClick="location.href='/delete-article/{{ blog.id }}/'">
+                                    <button type="button" class="btn btn-default deleteButton" aria-label="middle Align" onClick="location.href='/delete-article/' + blog.id + '/';">
                                       <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                     </button>
                                     <button type="button" class="open-UploadImageDialog btn btn-default" aria-label="right Align"  data-id="{{ blog.id }}" onClick="#uploadingimagemodal"
@@ -108,7 +86,6 @@
                                     </button>
                                 </div>
                             </div>
-                        {% endif %}
 
                     </div>
                 </div>
