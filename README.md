@@ -1,5 +1,6 @@
 # appengine-blog 
 A blog application deployed on GAE PaaS using Djangae from Potato-London. 
+GAE application's url: https://potato-blog-ric.appspot.com
 
 # The Djangae Scaffold Project
 
